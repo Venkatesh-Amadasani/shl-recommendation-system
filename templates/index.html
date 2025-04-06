@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHL Assessment Recommendation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">SHL Assessment Recommendation System</h1>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <form method="POST" class="space-y-4">
+                <label for="query" class="block text-lg font-medium text-gray-700">Enter Job Description or Query:</label>
+                <textarea id="query" name="query" rows="4" class="w-full p-2 border rounded-md" placeholder="e.g., I am hiring for Java developers who can collaborate effectively with my business teams. Looking for assessments under 40 minutes."></textarea>
+                <label for="url" class="block text-lg font-medium text-gray-700">Or Enter Job Description URL:</label>
+                <input type="url" id="url" name="url" class="w-full p-2 border rounded-md" placeholder="e.g., https://example.com/job-description">
+                <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">Get Recommendations</button>
+            </form>
+            {% if error %}
+            <p class="text-red-600 mt-2">{{ error }}</p>
+            {% endif %}
+        </div>
+        {% if recommendations %}
+        <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Recommended Assessments</h2>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2 border">Assessment Name</th>
+                        <th class="p-2 border">Remote Testing</th>
+                        <th class="p-2 border">Adaptive/IRT</th>
+                        <th class="p-2 border">Duration</th>
+                        <th class="p-2 border">Test Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rec in recommendations %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-2 border"><a href="{{ rec.url }}" class="text-blue-600 hover:underline" target="_blank">{{ rec.name }}</a></td>
+                        <td class="p-2 border">{{ rec.remote }}</td>
+                        <td class="p-2 border">{{ rec.adaptive }}</td>
+                        <td class="p-2 border">{{ rec.duration }}</td>
+                        <td class="p-2 border">{{ rec.test_type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
